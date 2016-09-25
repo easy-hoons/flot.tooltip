@@ -6,7 +6,7 @@
  * authors: Krzysztof Urbas @krzysu [myviews.pl],Evan Steinkerchner @Roundaround
  * website: https://github.com/krzysu/flot.tooltip
  * 
- * build on 2016-09-01
+ * build on 2016-09-24
  * released under MIT License, 2012
 */ 
 (function ($) {
@@ -262,7 +262,8 @@
                 pos.x -= totalTipWidth;
                 pos.x = Math.max(pos.x, 0);
             }
-            if ((pos.y - $(window).scrollTop()) > ($(window)[that.hfunc]() - totalTipHeight)) {
+            if ((pos.y - $(window).scrollTop()) > ($(window)[that.hfunc]() - totalTipHeight) &&
+                    pos.y >= totalTipHeight) {
                 pos.y -= totalTipHeight;
             }
 
