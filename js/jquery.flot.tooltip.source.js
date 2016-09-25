@@ -251,7 +251,8 @@
                 pos.x -= totalTipWidth;
                 pos.x = Math.max(pos.x, 0);
             }
-            if ((pos.y - $(window).scrollTop()) > ($(window)[that.hfunc]() - totalTipHeight)) {
+            if ((pos.y - $(window).scrollTop()) > ($(window)[that.hfunc]() - totalTipHeight) &&
+                    pos.y >= totalTipHeight) {
                 pos.y -= totalTipHeight;
             }
 
