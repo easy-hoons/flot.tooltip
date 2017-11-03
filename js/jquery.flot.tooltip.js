@@ -6,7 +6,7 @@
  * authors: Krzysztof Urbas @krzysu [myviews.pl],Evan Steinkerchner @Roundaround
  * website: https://github.com/krzysu/flot.tooltip
  * 
- * build on 2016-09-24
+ * build on 2017-11-03
  * released under MIT License, 2012
 */ 
 (function ($) {
@@ -191,11 +191,24 @@
 
                     // Our search here assumes our data is sorted via the x-axis.
                     // TODO: Improve efficiency somehow - search smaller sets of data.
+                    var prevIndex = null;
                     for (var j = 1; j < series.data.length; j++) {
-                        if (series.data[j - 1][0] <= pos.x && series.data[j][0] >= pos.x) {
-                            xBeforeIndex = j - 1;
+                        if (prevIndex === null) {
+                            var prev = series.data[j - 1];
+                            if (prev === null) {
+                                continue;
+                            }
+                            prevIndex = j - 1;
+                        }
+                        var curr = series.data[j];
+                        if (curr == null) {
+                            continue;
+                        }
+                        if (series.data[prevIndex][0] <= pos.x && curr[0] >= pos.x) {
+                            xBeforeIndex = prevIndex;
                             xAfterIndex = j;
                         }
+                        prevIndex = j;
                     }
 
                     if (xAfterIndex === -1) {
