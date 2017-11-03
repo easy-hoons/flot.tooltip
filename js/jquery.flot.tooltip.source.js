@@ -237,9 +237,10 @@
                         };
 
                         if (that.tooltipOptions.snap) {
+                            var offset = plot.offset();
                             ttPos = {
-                                pageX: series.xaxis.p2c(pointOnLine[0]),
-                                pageY: series.yaxis.p2c(pointOnLine[1])
+                                pageX: series.xaxis.p2c(pointOnLine[0]) + offset.left,
+                                pageY: series.yaxis.p2c(pointOnLine[1]) + offset.top
                             };
                         }
                     }
