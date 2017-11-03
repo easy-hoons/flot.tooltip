@@ -257,10 +257,12 @@
                     }
                 });
 
-                if (closestTrace.distance < maxDistance + 1)
+                if (closestTrace.distance < maxDistance + 1) {
                     plot.showTooltip(closestTrace.item, ttPos);
-                else
+                    plot.highlight(closestTrace.item.series, closestTrace.item.series.data[closestTrace.item.dataIndex], 'plothover');
+                } else {
                     plot.hideTooltip();
+                }
             } else {
                 plot.hideTooltip();
             }
