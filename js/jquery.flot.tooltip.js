@@ -36,6 +36,7 @@
             },
             defaultTheme: true,
             snap: true,
+            snapToPoint: false,
             lines: false,
             clickTips: false,
 
@@ -229,14 +230,19 @@
 
                         var pointSize = series.datapoints.pointsize;
 
-                        // Calculate the point on the line vertically closest to our cursor.
-                        var pointOnLine = [
-                            pos.x,
-                            pointPrev.y + ((pointNext.y - pointPrev.y) * ((pos.x - pointPrev.x) / (pointNext.x - pointPrev.x)))
-                        ];
+                        var datapoint;
+                        if (that.tooltipOptions.snapToPoint) {
+                            datapoint = series.data[closestIndex];
+                        } else {
+                            // Calculate the point on the line vertically closest to our cursor.
+                            datapoint = [
+                                pos.x,
+                                pointPrev.y + ((pointNext.y - pointPrev.y) * ((pos.x - pointPrev.x) / (pointNext.x - pointPrev.x)))
+                            ];
+                        }
 
                         var item = {
-                            datapoint: pointOnLine,
+                            datapoint: datapoint,
                             dataIndex: closestIndex,
                             series: series,
                             seriesIndex: i
@@ -250,8 +256,8 @@
                         if (that.tooltipOptions.snap) {
                             var offset = plot.offset();
                             ttPos = {
-                                pageX: series.xaxis.p2c(pointOnLine[0]) + offset.left,
-                                pageY: series.yaxis.p2c(pointOnLine[1]) + offset.top
+                                pageX: parseInt(series.xaxis.p2c(datapoint[0]) + offset.left, 10),
+                                pageY: parseInt(series.yaxis.p2c(datapoint[1]) + offset.top, 10)
                             };
                         }
                     }
