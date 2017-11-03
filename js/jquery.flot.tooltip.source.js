@@ -27,6 +27,7 @@
             snap: true,
             snapToPoint: false,
             lines: false,
+            mouseActiveRadiusForLines: null,
             clickTips: false,
 
             // callbacks
@@ -167,7 +168,7 @@
             if (item) {
                 plot.showTooltip(item, that.tooltipOptions.snap ? item : pos);
             } else if (that.plotOptions.series.lines.show && that.tooltipOptions.lines === true) {
-                var maxDistance = that.plotOptions.grid.mouseActiveRadius;
+                var maxDistance = that.tooltipOptions.mouseActiveRadiusForLines || that.plotOptions.grid.mouseActiveRadius;
 
                 var closestTrace = {
                     distance: maxDistance + 1

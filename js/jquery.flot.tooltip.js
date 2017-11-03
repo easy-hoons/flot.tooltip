@@ -38,6 +38,7 @@
             snap: true,
             snapToPoint: false,
             lines: false,
+            mouseActiveRadiusForLines: null,
             clickTips: false,
 
             // callbacks
