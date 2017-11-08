@@ -6,7 +6,7 @@
  * authors: Krzysztof Urbas @krzysu [myviews.pl],Evan Steinkerchner @Roundaround
  * website: https://github.com/krzysu/flot.tooltip
  * 
- * build on 2016-09-24
+ * build on 2017-11-08
  * released under MIT License, 2012
 */ 
 (function ($) {
@@ -247,6 +247,19 @@
                     plot.showTooltip(closestTrace.item, ttPos);
                 else
                     plot.hideTooltip();
+            } else if (typeof(that.tooltipOptions.markingContent) === 'function') {
+                var hideTooltip = true;
+                $.each(plot.getOptions().grid.markings, function(idx, marking) {
+                    if (pos.x >= marking.xaxis.from && pos.x <= marking.xaxis.to && pos.y >= plot.getAxes().yaxis.min &&
+                            pos.y <= plot.getAxes().yaxis.max) {
+                        plot.showMarkingTooltip(marking, pos);
+                        hideTooltip = false;
+                        return false; // break
+                    }
+                });
+                if (hideTooltip) {
+                    plot.hideTooltip();
+                }
             } else {
                 plot.hideTooltip();
             }
@@ -311,6 +324,21 @@
             if (typeof that.tooltipOptions.onHover === 'function') {
                 that.tooltipOptions.onHover(target, $tip);
             }
+        };
+
+        plot.showMarkingTooltip = function (marking, position) {
+            var $tip = that.getDomElement();
+
+            var tipText = that.tooltipOptions.markingContent(marking);
+            if (tipText === '')
+                return;
+
+            $tip.html(tipText);
+            plot.setTooltipPosition({ x: position.pageX, y: position.pageY });
+            $tip.css({
+                left: that.tipPosition.x + that.tooltipOptions.shifts.x,
+                top: that.tipPosition.y + that.tooltipOptions.shifts.y
+            }).show();
         };
 
         // Quick little function for hiding the tooltip.
